@@ -9,10 +9,12 @@ module Api::V1
     def create
       puts "inside create #{params}"
       @user = User.find(params[:userId])
-      puts "user is #{@user.account}"
-            render json: {msg: 'welcome to create'}
+      puts "user is #{@user.accounts}"
 
-         # if params[:url].include? 'dev.to'
+         if params[:url].include? 'dev.to'
+          @article_fetcher = DevToScraper.new
+        #  elsif params[:url].include? 'twitter'
+        #   @article_fetcher = TwitterScraper.new
       #   @test = RequestData.fetch(params[:url], RequestType::Scrape)
       #   if @test
       #     @test.each do |title|
@@ -21,7 +23,9 @@ module Api::V1
       #       # puts "title is : #{title}"
       #       @article = Article.create(title: title[:title], link: title[:link], avatar: title[:avatar], time: title[:time])
       #       @article.save
-      #     end
+          end
+
+          @data = @article_fetcher.grab
         
 
 

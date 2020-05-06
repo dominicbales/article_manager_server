@@ -3,11 +3,11 @@ require 'open-uri'
 
 
 module AccountsHelper
-  class RequestData
-    def self.fetch(url, request_type)
-      request_type.grab(url)
-    end
-  end
+  # class RequestData
+  #   def self.fetch(url, request_type)
+  #     request_type.grab(url)
+  #   end
+  # end
 end
 
 module RequestType
