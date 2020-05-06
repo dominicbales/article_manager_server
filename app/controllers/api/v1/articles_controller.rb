@@ -1,43 +1,42 @@
 module Api::V1
   class ArticlesController < ApplicationController
     # Create a new article 
-    def index
-      # puts "inside index #{params}"
-      # @user = User.find_by(params[:userId])
-    end
-
     def create
-      puts "inside create #{params}"
-      @user = User.find(params[:userId])
-      puts "user is #{@user.accounts}"
-
-         if params[:url].include? 'dev.to'
+      @accounts = Account.where(user_id: params[:userId])
+      @data = []
+      @accounts.each do |account|
+        if account.url.include? 'dev.to'
           @article_fetcher = DevToScraper.new
+          @data.concat @article_fetcher.grab(account)
+        else 
+          puts "Cant get anything else besides dev.to at the moment"
         #  elsif params[:url].include? 'twitter'
         #   @article_fetcher = TwitterScraper.new
-      #   @test = RequestData.fetch(params[:url], RequestType::Scrape)
-      #   if @test
-      #     @test.each do |title|
-  
-      #       # puts "test is: #{title[:link]}" 
-      #       # puts "title is : #{title}"
-      #       @article = Article.create(title: title[:title], link: title[:link], avatar: title[:avatar], time: title[:time])
-      #       @article.save
-          end
-
-          @data = @article_fetcher.grab
+        end
+      end
         
+      if @data
+        @data.each do |title|
+          @article = Article.new(title: title[:title], link: title[:link], avatar: title[:avatar], time: title[:time],account_id: title[:account_id], user_id: params[:userId])
+          if @article.save
+            puts "article has been saved"
+          else
+            puts "couldn't save article #{@article.errors.full_messages}"       
+          end
+        end
+        render json: {msg: 'Successful'}
+      else
+        render json: {msg: 'Unsuccessful'}
+      end
+    end
 
-
-
-      #     # @article = Article.new(article_params)
-      #     puts "Article has been created"
-      #   end
-       
-      # else
-      #   @test2 = RequestData.fetch(params[:url], RequestType::Api)
-      # end
-      # render json: {msg: 'welcome to api', test: @test}
+    def show
+      @articles = Article.where(user_id: params[:id])
+      if @articles
+        render json: {msg: 'Articles found', data: @articles}
+      else
+        render json: {msg: 'No articles found', data: []}
+      end
     end
 
     def index
