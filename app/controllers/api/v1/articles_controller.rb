@@ -1,8 +1,17 @@
 module Api::V1
   class ArticlesController < ApplicationController
     # Create a new article 
+    def index
+      # puts "inside index #{params}"
+      # @user = User.find_by(params[:userId])
+    end
+
     def create
-      puts "Welcome to creating articles"
+      puts "inside create #{params}"
+      @user = User.find(params[:userId])
+      puts "user is #{@user.account}"
+            render json: {msg: 'welcome to create'}
+
          # if params[:url].include? 'dev.to'
       #   @test = RequestData.fetch(params[:url], RequestType::Scrape)
       #   if @test

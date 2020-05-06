@@ -4,6 +4,7 @@ Rails.application.routes.draw do
         resources :tests
         resources :users
         resources :accounts
+        resources :articles
         post '/login', to: 'sessions#create'
     end
   end
