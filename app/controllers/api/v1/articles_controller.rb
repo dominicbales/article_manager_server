@@ -17,6 +17,7 @@ module Api::V1
         
       if @data
         @data.each do |title|
+          puts "data return #{title[:title]}"
           @article = Article.new(title: title[:title], link: title[:link], avatar: title[:avatar], time: title[:time],account_id: title[:account_id], user_id: params[:userId])
           if @article.save
             puts "article has been saved"
