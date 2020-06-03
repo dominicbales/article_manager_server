@@ -1,6 +1,6 @@
 class Account < ApplicationRecord
-  belongs_to :users, optional: true
-  has_many :articles
+  belongs_to :user
+  has_many :articles, dependent: :destroy
 
 
 end

@@ -24,16 +24,11 @@ module Api::V1
         # @test = RequestData.fetch(params[:url], RequestType::Scrape)
       #   if @test
       #     @test.each do |title|
-  
       #       # puts "test is: #{title[:link]}" 
       #       # puts "title is : #{title}"
       #       @article = Article.create(title: title[:title], link: title[:link], avatar: title[:avatar], time: title[:time])
       #       @article.save
       #     end
-        
-
-
-
       #     # @article = Article.new(article_params)
       #     puts "Article has been created"
       #   end
